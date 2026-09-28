@@ -1,0 +1,42 @@
+Options -Indexes
+RewriteEngine On
+
+# Add .php extension if file exists
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php [L,QSA]
+
+# API routing for RESTful-style URLs
+# /api/auth/logout -> /api/auth/logout.php
+# /api/counters/123 -> /api/counters/update.php with id=123
+# /api/users/123 -> /api/users/update.php with id=123
+# /api/services/123 -> /api/services/update.php with id=123
+
+# audit-logs
+RewriteRule ^api/audit-logs$ api/audit_logs.php [L,QSA]
+
+# public-data
+RewriteRule ^api/public-data$ api/public_data.php [L,QSA]
+
+# announcement
+RewriteRule ^api/announcement$ api/announcement.php [L,QSA]
+
+# tickets/public
+RewriteRule ^api/tickets/public$ api/tickets/public_create.php [L,QSA]
+
+# tickets/walk-in
+RewriteRule ^api/tickets/walk-in$ api/tickets/walk_in.php [L,QSA]
+
+# counters with ID
+RewriteRule ^api/counters/([0-9]+)$ api/counters/update.php?id=$1 [L,QSA]
+
+# users with ID
+RewriteRule ^api/users/([0-9]+)$ api/users/update.php?id=$1 [L,QSA]
+
+# services with ID
+RewriteRule ^api/services/([0-9]+)$ api/services/update.php?id=$1 [L,QSA]
+
+# ticket actions with ID
+RewriteRule ^api/tickets/([0-9]+)/call$ api/tickets/call.php?id=$1 [L,QSA]
+RewriteRule ^api/tickets/([0-9]+)/complete$ api/tickets/complete.php?id=$1 [L,QSA]
+RewriteRule ^api/tickets/([0-9]+)/no-show$ api/tickets/no_show.php?id=$1 [L,QSA]
